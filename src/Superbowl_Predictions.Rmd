@@ -1,1 +1,97 @@
-test
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+### install tidyverse package
+```{r}
+install.packages("tidyverse")
+
+```
+
+
+
+### load all the necessary libraries
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+### importing the data as a csv
+```{r}
+SB_History <- read.csv("Super_Bowl_History.csv")
+SB_History
+```
+
+
+### subseting to get all the appearances for both teams in any superbowl
+### whether they won or lost
+```{r}
+df1 <- subset(SB_History, AFC == "Kansas City Chiefs")
+df2 <- subset(SB_History, NFC == "Kansas City Chiefs")
+df3 <- subset(SB_History, AFC == "Tampa Bay Buccaneers")
+df4 <- subset(SB_History, NFC == "Tampa Bay Buccaneers")
+
+new_data <- filter(SB_History, AFC %in% c("Kansas City Chiefs", "Tampa Bay Buccaneers") , AFC %in% c("Kansas City Chiefs"  , "Tampa Bay Buccaneers"))  
+
+ggplot(new_data, aes(x=AFC, y=winer.points,  fill=Date)) + 
+  geom_bar(stat = "identity") +
+labs(title = "Team Appearance and outcome throughout super bowl history" ,
+subtitle = "Source: Super Bowl History Data" ,
+x = "Team" ,
+y = "Winning Points")
+
+
+```
+
+
+### importing the data as a csv
+```{r}
+Kansas_vs_Tampa_History <- read.csv("Tampa_vs_Kansas.csv")
+Kansas_vs_Tampa_History
+```
+
+### subseting the data for more precision and accuracy
+```{r}
+df <- subset(Kansas_vs_Tampa_History, Home == "Tampa Bay Buccaneers")
+ggplot(df, aes(x=Tampa.Bay.Points, y=Date,  fill = Winer)) + 
+  geom_bar(stat = "identity") +
+labs(title = "Tampa Bay Buccanners home game scores and outcome" ,
+subtitle = "Source: Tampa Bay Buccanners Vs. Kansas City Chiefs " ,
+x = "Score" ,
+y = "Date")
+```
+
+
+
+### Violin Plots of the the score difference for each game
+```{r}
+ggplot(Kansas_vs_Tampa_History, aes(x = Winer, y = Difference, color = Winer)) + 
+  geom_violin(show.legend = FALSE) +
+   labs(title = "Point Difference between each match of Chiefs Vs. Buccanners ",
+             subtitle = "Source: Tampa Bay Buccanners Vs. Kansas City Chiefs" ,
+             x = "Team",
+             y = "Point Difference") 
+```
+
+
+
+### importing the data as a csv
+```{r}
+S_History <- read.csv("spreadspoke_scores.csv")
+S_History
+```
+
+### subseting to get all the appearances for both teams in any superbowl
+### whether they won or lost
+```{r}
+df <- subset(S_History, team_home == "Kansas City Chiefs")
+ggplot(S_History, aes(x=score_away, y= schedule_season,  fill=team_home)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +
+labs(title = "Kansas points for away games" ,
+subtitle = "Source: Super Bowl Data" ,
+x = "Winner points" ,
+y = "Season")
+
+
+```
